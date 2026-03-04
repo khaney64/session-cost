@@ -145,12 +145,10 @@ function analyzeSession(filePath, cutoffTime) {
           usage.costTotal += u.cost.total || 0;
         }
 
-        // Use last provider/model with non-zero cost (prefer real API calls over delivery wrappers)
-        if (u.cost && u.cost.total > 0) {
-          if (msg.api) api = msg.api;
-          if (msg.model) model = msg.model;
-          if (msg.provider) provider = msg.provider;
-        }
+        // Capture model/provider from any message with usage; prefer non-zero cost if available
+        if (msg.api) api = msg.api;
+        if (msg.model) model = msg.model;
+        if (msg.provider) provider = msg.provider;
       }
     } catch (err) {
       // Skip malformed lines
